@@ -43,9 +43,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         }
                     });
                 }
-
-
-
                 return {
                     id: user.id.toString(),
                     name: user.fullName,
@@ -55,7 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
     ]
     ,
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     session: { strategy: "jwt" },
     callbacks: {
         async jwt({ token, user }) {
