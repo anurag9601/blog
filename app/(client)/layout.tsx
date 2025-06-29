@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,10 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        
-      >
-        {children}
+      <body>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

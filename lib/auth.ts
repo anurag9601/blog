@@ -1,17 +1,21 @@
+import { prismaClient } from "@/db/prismaClient";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prismaClient } from "@/db/prismaClient";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
+        Google,
+        GitHub,
         CredentialsProvider({
             name: "credentials",
             credentials: {
                 email: {
                     type: "text"
                 },
-                fullName: { 
+                fullName: {
                     type: "text"
                 },
                 password: {
@@ -49,7 +53,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 };
             }
         })
-    ],
+    ]
+    ,
     secret: process.env.AUTH_SECRET,
     session: { strategy: "jwt" },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.name = user.name;
+                token.email = user.email;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.email = token.name as string;
+                session.user.name = token.email as string;
+            };
+
+            return session;
+        }
+    }
 })
