@@ -29,6 +29,8 @@ function AuthPage() {
       redirect: false,
     });
 
+    console.log("response", res);
+
     if (res.error) {
       alert(res.error);
     } else {

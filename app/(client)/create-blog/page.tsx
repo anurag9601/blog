@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 
 function CreateBlogPage() {
   const data = useSession();
+  console.log("login user data", data);
   return (
     <div className="h-dvh w-dvw bg-black flex items-center justify-center">
       <form className="flex flex-col items-center justify-center gap-3 max-w-[400px] w-full">
